@@ -7,25 +7,31 @@
     <style>
         body {
             font-family: Arial, sans-serif;
+            background: #eef2f7;
             margin: 0;
             padding: 0;
-            background-color: #f0f0f0;
+            color: #222;
         }
 
         header {
-            background-color: #003366;
+            background: #1a3c6e;
             color: white;
-            padding: 15px 20px;
+            padding: 14px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         header h1 {
             margin: 0;
-            font-size: 24px;
+            font-size: 20px;
         }
 
-        header p {
-            margin: 4px 0 0 0;
-            font-size: 13px;
+        header small {
+            display: block;
+            font-size: 12px;
+            color: #ccc;
+            margin-top: 3px;
         }
 
         #statusText {
@@ -36,42 +42,44 @@
         .container {
             max-width: 1100px;
             margin: 20px auto;
-            padding: 0 15px;
+            padding: 0 16px;
         }
 
         /* Stats */
         .stats {
             display: flex;
-            gap: 15px;
-            margin-bottom: 20px;
+            gap: 14px;
+            margin-bottom: 18px;
             flex-wrap: wrap;
         }
 
-        .stat-box {
+        .stat-card {
             background: white;
             border: 1px solid #ccc;
-            padding: 12px 20px;
+            border-radius: 6px;
+            padding: 14px 22px;
             text-align: center;
-            width: 130px;
+            min-width: 110px;
         }
 
-        .stat-box h2 {
+        .stat-card h2 {
             margin: 0;
-            font-size: 28px;
-            color: #003366;
+            font-size: 26px;
+            color: #1a3c6e;
         }
 
-        .stat-box p {
+        .stat-card p {
             margin: 4px 0 0;
             font-size: 12px;
-            color: #555;
+            color: #666;
         }
 
         /* Controls */
         .controls {
             background: white;
             border: 1px solid #ccc;
-            padding: 12px 15px;
+            border-radius: 6px;
+            padding: 12px 16px;
             margin-bottom: 20px;
             display: flex;
             flex-wrap: wrap;
@@ -79,105 +87,137 @@
             align-items: center;
         }
 
-        .controls input[type="text"],
-        .controls select {
-            padding: 7px 10px;
-            border: 1px solid #aaa;
-            font-size: 14px;
-        }
-
         .controls input[type="text"] {
-            width: 250px;
-        }
-
-        button {
-            padding: 7px 14px;
+            padding: 8px 12px;
+            border: 1px solid #bbb;
+            border-radius: 4px;
             font-size: 14px;
-            cursor: pointer;
+            width: 240px;
         }
 
-        .btn-add {
-            background-color: #003366;
-            color: white;
-            border: none;
-        }
-
-        .btn-edit {
-            background-color: #0066cc;
-            color: white;
-            border: none;
-            font-size: 12px;
-            padding: 5px 10px;
-        }
-
-        .btn-delete {
-            background-color: #cc0000;
-            color: white;
-            border: none;
-            font-size: 12px;
-            padding: 5px 10px;
-        }
-
-        .btn-close {
-            background-color: #888;
-            color: white;
-            border: none;
-        }
-
-        .btn-save {
-            background-color: #006600;
-            color: white;
-            border: none;
-        }
-
-        /* Book table */
-        table {
-            width: 100%;
-            border-collapse: collapse;
+        .controls select {
+            padding: 8px 10px;
+            border: 1px solid #bbb;
+            border-radius: 4px;
+            font-size: 14px;
             background: white;
         }
 
-        table th {
-            background-color: #003366;
+        .btn-add {
+            background: #1a3c6e;
             color: white;
-            padding: 10px;
-            text-align: left;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
             font-size: 14px;
-        }
-
-        table td {
-            padding: 9px 10px;
-            border-bottom: 1px solid #ddd;
-            font-size: 13px;
-            vertical-align: middle;
-        }
-
-        table tr:hover {
-            background-color: #f5f5f5;
             cursor: pointer;
         }
 
-        .badge-available {
-            background: green;
-            color: white;
-            padding: 2px 7px;
-            font-size: 11px;
-            border-radius: 3px;
+        .btn-add:hover { background: #15305a; }
+
+        /* Book grid */
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+            gap: 16px;
         }
 
-        .badge-unavailable {
-            background: red;
+        .book-card {
+            background: white;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .book-card:hover {
+            border-color: #1a3c6e;
+        }
+
+        .book-top {
+            background: #1a3c6e;
             color: white;
-            padding: 2px 7px;
+            padding: 18px 14px 14px;
+        }
+
+        .book-top .book-title {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            line-height: 1.3;
+        }
+
+        .book-top .book-author {
+            font-size: 12px;
+            color: #b0c4de;
+        }
+
+        .book-body {
+            padding: 12px 14px;
+        }
+
+        .book-body .genre-tag {
+            display: inline-block;
+            background: #e8eef7;
+            color: #1a3c6e;
             font-size: 11px;
+            padding: 3px 8px;
             border-radius: 3px;
+            margin-bottom: 8px;
+        }
+
+        .book-body .book-info {
+            font-size: 12px;
+            color: #555;
+            margin-bottom: 4px;
+        }
+
+        .badge {
+            display: inline-block;
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 3px;
+            color: white;
+            margin-top: 6px;
+        }
+
+        .badge.available   { background: #2e7d32; }
+        .badge.unavailable { background: #c62828; }
+
+        .book-footer {
+            border-top: 1px solid #eee;
+            padding: 8px 14px;
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-edit {
+            background: #1a3c6e;
+            color: white;
+            border: none;
+            padding: 5px 12px;
+            border-radius: 3px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .btn-delete {
+            background: #c62828;
+            color: white;
+            border: none;
+            padding: 5px 12px;
+            border-radius: 3px;
+            font-size: 12px;
+            cursor: pointer;
         }
 
         .empty-msg {
             text-align: center;
-            padding: 40px;
+            padding: 50px;
             color: #777;
             background: white;
+            border-radius: 6px;
+            border: 1px solid #ccc;
         }
 
         /* Modal */
@@ -186,37 +226,36 @@
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5);
+            background: rgba(0,0,0,0.45);
             z-index: 999;
             justify-content: center;
             align-items: flex-start;
-            padding-top: 50px;
+            padding-top: 40px;
         }
 
-        .modal-bg.open {
-            display: flex;
-        }
+        .modal-bg.open { display: flex; }
 
         .modal-box {
             background: white;
-            border: 2px solid #003366;
-            padding: 25px;
-            width: 480px;
+            border-radius: 6px;
+            border: 1px solid #aaa;
+            padding: 24px;
+            width: 470px;
             max-height: 90vh;
             overflow-y: auto;
         }
 
         .modal-box h2 {
-            margin-top: 0;
-            font-size: 18px;
-            color: #003366;
-            border-bottom: 1px solid #ccc;
-            padding-bottom: 10px;
+            margin: 0 0 16px;
+            font-size: 17px;
+            color: #1a3c6e;
+            border-bottom: 2px solid #1a3c6e;
+            padding-bottom: 8px;
         }
 
         .form-row {
             display: flex;
-            gap: 15px;
+            gap: 12px;
         }
 
         .form-group {
@@ -229,25 +268,46 @@
             font-size: 13px;
             font-weight: bold;
             margin-bottom: 4px;
+            color: #333;
         }
 
         .form-group input,
         .form-group select,
         .form-group textarea {
             width: 100%;
-            padding: 7px 9px;
-            border: 1px solid #aaa;
+            padding: 7px 10px;
+            border: 1px solid #bbb;
+            border-radius: 4px;
             font-size: 13px;
             box-sizing: border-box;
             font-family: Arial, sans-serif;
         }
 
         .modal-actions {
-            margin-top: 15px;
-            text-align: right;
+            margin-top: 16px;
             display: flex;
-            gap: 8px;
             justify-content: flex-end;
+            gap: 8px;
+        }
+
+        .btn-cancel {
+            background: #f0f0f0;
+            color: #333;
+            border: 1px solid #bbb;
+            padding: 7px 16px;
+            border-radius: 4px;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        .btn-save {
+            background: #2e7d32;
+            color: white;
+            border: none;
+            padding: 7px 16px;
+            border-radius: 4px;
+            font-size: 13px;
+            cursor: pointer;
         }
 
         /* Detail modal */
@@ -255,71 +315,77 @@
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 12px;
+            font-size: 13px;
         }
 
         .detail-table td {
             padding: 7px 10px;
             border: 1px solid #ddd;
-            font-size: 13px;
         }
 
         .detail-table td:first-child {
             font-weight: bold;
-            background: #f0f0f0;
-            width: 110px;
+            background: #f5f7fa;
+            width: 100px;
+            color: #333;
         }
 
         .synopsis-box {
-            background: #f9f9f9;
+            background: #f5f7fa;
             border: 1px solid #ddd;
-            padding: 10px;
+            border-radius: 4px;
+            padding: 10px 12px;
             font-size: 13px;
-            line-height: 1.5;
+            line-height: 1.6;
+            color: #444;
             margin-bottom: 12px;
         }
 
         /* Toast */
         #toast {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
-            padding: 12px 20px;
+            bottom: 22px;
+            right: 22px;
+            padding: 11px 20px;
             color: white;
-            font-size: 14px;
+            font-size: 13px;
+            border-radius: 4px;
             display: none;
             z-index: 9999;
-            border-radius: 3px;
         }
 
-        #toast.success { background: #006600; }
-        #toast.error { background: #cc0000; }
-        #toast.info { background: #003366; }
+        #toast.success { background: #2e7d32; }
+        #toast.error   { background: #c62828; }
+        #toast.info    { background: #1a3c6e; }
     </style>
 </head>
 <body>
 
 <header>
-    <h1>Books Library</h1>
-    <p>CET252 — Books REST API Client &nbsp;|&nbsp; <span id="statusText">Connecting to API...</span></p>
+    <div>
+        <h1>Books Library</h1>
+        <small>CET252 — Books REST API Client</small>
+    </div>
+    <span id="statusText">Connecting...</span>
 </header>
 
 <div class="container">
 
     <!-- Stats -->
     <div class="stats">
-        <div class="stat-box">
+        <div class="stat-card">
             <h2 id="totalBooks">—</h2>
             <p>Total Books</p>
         </div>
-        <div class="stat-box">
+        <div class="stat-card">
             <h2 id="totalAuthors">—</h2>
             <p>Authors</p>
         </div>
-        <div class="stat-box">
+        <div class="stat-card">
             <h2 id="totalGenres">—</h2>
             <p>Genres</p>
         </div>
-        <div class="stat-box">
+        <div class="stat-card">
             <h2 id="avgRating">—</h2>
             <p>Avg Rating</p>
         </div>
@@ -328,26 +394,22 @@
     <!-- Controls -->
     <div class="controls">
         <input type="text" id="searchInput" placeholder="Search by title or author..." oninput="filterBooks()">
-
         <select id="genreFilter" onchange="filterBooks()">
             <option value="">All Genres</option>
         </select>
-
         <select id="ratingFilter" onchange="filterBooks()">
             <option value="">All Ratings</option>
             <option value="4.5">4.5 and above</option>
             <option value="4">4.0 and above</option>
             <option value="3">3.0 and above</option>
         </select>
-
         <button class="btn-add" onclick="openAddModal()">+ Add Book</button>
     </div>
 
-    <!-- Books Table -->
+    <!-- Books Grid -->
     <div id="booksContainer">
-        <p style="padding:20px; background:white;">Loading books...</p>
+        <p class="empty-msg">Loading books...</p>
     </div>
-
 </div>
 
 <!-- Add/Edit Modal -->
@@ -359,7 +421,6 @@
             <label>Title *</label>
             <input type="text" id="bookTitle" placeholder="Enter book title">
         </div>
-
         <div class="form-row">
             <div class="form-group">
                 <label>Author *</label>
@@ -374,7 +435,6 @@
                 </select>
             </div>
         </div>
-
         <div class="form-row">
             <div class="form-group">
                 <label>ISBN</label>
@@ -385,7 +445,6 @@
                 <input type="number" id="bookYear" placeholder="e.g. 2023">
             </div>
         </div>
-
         <div class="form-row">
             <div class="form-group">
                 <label>Rating (0-5)</label>
@@ -396,23 +455,20 @@
                 <input type="number" id="bookPages" placeholder="e.g. 300">
             </div>
         </div>
-
         <div class="form-group">
             <label>Synopsis</label>
             <textarea id="bookSynopsis" rows="3" placeholder="Short description..."></textarea>
         </div>
-
         <div class="form-group">
             <label>
                 <input type="checkbox" id="bookAvailable" checked>
                 Available to borrow
             </label>
         </div>
-
         <input type="hidden" id="editingBookId">
 
         <div class="modal-actions">
-            <button class="btn-close" onclick="closeModal()">Cancel</button>
+            <button class="btn-cancel" onclick="closeModal()">Cancel</button>
             <button class="btn-save" onclick="saveBook()">Save Book</button>
         </div>
     </div>
@@ -420,25 +476,22 @@
 
 <!-- Detail Modal -->
 <div class="modal-bg" id="detailModal">
-    <div class="modal-box" style="width: 540px;">
+    <div class="modal-box" style="width:520px;">
         <h2>Book Details</h2>
         <div id="detailContent"></div>
         <div class="modal-actions">
-            <button class="btn-close" onclick="closeDetailModal()">Close</button>
+            <button class="btn-cancel" onclick="closeDetailModal()">Close</button>
             <button class="btn-edit" id="detailEditBtn">Edit</button>
             <button class="btn-delete" id="detailDeleteBtn">Delete</button>
         </div>
     </div>
 </div>
 
-<!-- Toast -->
 <div id="toast"></div>
 
 <script>
 const API = 'http://localhost:3001/api';
-let allBooks = [];
-let allAuthors = [];
-let allGenres = [];
+let allBooks = [], allAuthors = [], allGenres = [];
 
 async function apiFetch(path, options = {}) {
     const res = await fetch(API + path, {
@@ -456,13 +509,13 @@ async function init() {
             apiFetch('/genres')
         ]);
 
-        if (!booksRes.ok) throw new Error('API not reachable');
+        if (!booksRes.ok) throw new Error();
 
-        allBooks   = booksRes.data.books    || [];
-        allAuthors = authorsRes.data.authors || [];
-        allGenres  = genresRes.data.genres   || [];
+        allBooks   = booksRes.data.books     || [];
+        allAuthors = authorsRes.data.authors  || [];
+        allGenres  = genresRes.data.genres    || [];
 
-        document.getElementById('statusText').textContent = 'API Connected';
+        document.getElementById('statusText').textContent = 'Connected';
         document.getElementById('statusText').style.color = '#90ee90';
 
         document.getElementById('totalBooks').textContent   = allBooks.length;
@@ -474,75 +527,54 @@ async function init() {
         const gf = document.getElementById('genreFilter');
         allGenres.forEach(g => gf.innerHTML += `<option value="${g.name}">${g.name}</option>`);
 
-        const authorSel = document.getElementById('bookAuthor');
-        allAuthors.forEach(a => authorSel.innerHTML += `<option value="${a.id}">${a.name}</option>`);
-
-        const genreSel = document.getElementById('bookGenre');
-        allGenres.forEach(g => genreSel.innerHTML += `<option value="${g.id}">${g.name}</option>`);
+        allAuthors.forEach(a => document.getElementById('bookAuthor').innerHTML += `<option value="${a.id}">${a.name}</option>`);
+        allGenres.forEach(g  => document.getElementById('bookGenre').innerHTML  += `<option value="${g.id}">${g.name}</option>`);
 
         renderBooks(allBooks);
     } catch (err) {
-        document.getElementById('statusText').textContent = 'API Offline - Start the API server first';
-        document.getElementById('booksContainer').innerHTML = `<p class="empty-msg">Cannot connect to API at localhost:3001. Run npm start in the API folder.</p>`;
+        document.getElementById('statusText').textContent = 'API Offline';
+        document.getElementById('statusText').style.color = '#ff6b6b';
+        document.getElementById('booksContainer').innerHTML = `<p class="empty-msg">Cannot connect to API at localhost:3001.<br>Run <strong>npm start</strong> in the api folder first.</p>`;
     }
 }
 
 function renderBooks(books) {
     const container = document.getElementById('booksContainer');
     if (books.length === 0) {
-        container.innerHTML = `<p class="empty-msg">No books found. Try changing the search or filters.</p>`;
+        container.innerHTML = `<p class="empty-msg">No books found. Try changing your search or filters.</p>`;
         return;
     }
+    container.innerHTML = `<div class="books-grid">${books.map(bookCard).join('')}</div>`;
+}
 
-    let html = `
-        <table>
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Title</th>
-                    <th>Author</th>
-                    <th>Genre</th>
-                    <th>Year</th>
-                    <th>Rating</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-    `;
-
-    books.forEach((b, i) => {
-        html += `
-            <tr onclick="showDetail(${b.id})">
-                <td>${i + 1}</td>
-                <td>${b.title}</td>
-                <td>${b.author}</td>
-                <td>${b.genre}</td>
-                <td>${b.published_year || 'N/A'}</td>
-                <td>${b.rating ? b.rating.toFixed(1) : 'N/A'}</td>
-                <td><span class="${b.available ? 'badge-available' : 'badge-unavailable'}">${b.available ? 'Available' : 'Borrowed'}</span></td>
-                <td onclick="event.stopPropagation()">
-                    <button class="btn-edit" onclick="editBook(${b.id})">Edit</button>
-                    <button class="btn-delete" onclick="deleteBook(${b.id}, '${b.title.replace(/'/g, "\\'")}')">Delete</button>
-                </td>
-            </tr>
-        `;
-    });
-
-    html += `</tbody></table>`;
-    container.innerHTML = html;
+function bookCard(b) {
+    return `
+        <div class="book-card" onclick="showDetail(${b.id})">
+            <div class="book-top">
+                <div class="book-title">${b.title}</div>
+                <div class="book-author">by ${b.author}</div>
+            </div>
+            <div class="book-body">
+                <span class="genre-tag">${b.genre}</span>
+                <div class="book-info">Year: ${b.published_year || 'N/A'} &nbsp;|&nbsp; Pages: ${b.pages || 'N/A'}</div>
+                <div class="book-info">Rating: ${b.rating ? b.rating.toFixed(1) + ' / 5' : 'Not rated'}</div>
+                <span class="badge ${b.available ? 'available' : 'unavailable'}">${b.available ? 'Available' : 'Borrowed'}</span>
+            </div>
+            <div class="book-footer" onclick="event.stopPropagation()">
+                <button class="btn-edit"   onclick="editBook(${b.id})">Edit</button>
+                <button class="btn-delete" onclick="deleteBook(${b.id}, '${b.title.replace(/'/g, "\\'")}')">Delete</button>
+            </div>
+        </div>`;
 }
 
 function filterBooks() {
     const search = document.getElementById('searchInput').value.toLowerCase();
     const genre  = document.getElementById('genreFilter').value;
     const rating = parseFloat(document.getElementById('ratingFilter').value) || 0;
-
     const filtered = allBooks.filter(b => {
-        const matchSearch = !search || b.title.toLowerCase().includes(search) || b.author.toLowerCase().includes(search);
-        const matchGenre  = !genre  || b.genre === genre;
-        const matchRating = !rating || b.rating >= rating;
-        return matchSearch && matchGenre && matchRating;
+        return (!search || b.title.toLowerCase().includes(search) || b.author.toLowerCase().includes(search))
+            && (!genre  || b.genre === genre)
+            && (!rating || b.rating >= rating);
     });
     renderBooks(filtered);
 }
@@ -551,7 +583,6 @@ async function showDetail(id) {
     const res = await apiFetch(`/books/${id}`);
     if (!res.ok) return showToast('Could not load book', 'error');
     const b = res.data;
-
     document.getElementById('detailContent').innerHTML = `
         <table class="detail-table">
             <tr><td>Title</td><td>${b.title}</td></tr>
@@ -563,30 +594,21 @@ async function showDetail(id) {
             <tr><td>ISBN</td><td>${b.isbn || 'N/A'}</td></tr>
             <tr><td>Status</td><td>${b.available ? 'Available' : 'Borrowed'}</td></tr>
         </table>
-        ${b.synopsis ? `<div class="synopsis-box"><strong>Synopsis:</strong><br>${b.synopsis}</div>` : ''}
-    `;
-
+        ${b.synopsis ? `<div class="synopsis-box"><strong>Synopsis:</strong><br><br>${b.synopsis}</div>` : ''}`;
     document.getElementById('detailEditBtn').onclick   = () => { closeDetailModal(); editBook(id); };
     document.getElementById('detailDeleteBtn').onclick = () => { closeDetailModal(); deleteBook(id, b.title); };
     document.getElementById('detailModal').classList.add('open');
 }
 
-function closeDetailModal() {
-    document.getElementById('detailModal').classList.remove('open');
-}
+function closeDetailModal() { document.getElementById('detailModal').classList.remove('open'); }
 
 function openAddModal() {
-    document.getElementById('modalTitle').textContent = 'Add New Book';
-    document.getElementById('editingBookId').value = '';
-    document.getElementById('bookTitle').value    = '';
-    document.getElementById('bookAuthor').value   = '';
-    document.getElementById('bookGenre').value    = '';
-    document.getElementById('bookIsbn').value     = '';
-    document.getElementById('bookYear').value     = '';
-    document.getElementById('bookRating').value   = '';
-    document.getElementById('bookPages').value    = '';
-    document.getElementById('bookSynopsis').value = '';
-    document.getElementById('bookAvailable').checked = true;
+    document.getElementById('modalTitle').textContent    = 'Add New Book';
+    document.getElementById('editingBookId').value       = '';
+    ['bookTitle','bookIsbn','bookYear','bookRating','bookPages','bookSynopsis'].forEach(id => document.getElementById(id).value = '');
+    document.getElementById('bookAuthor').value          = '';
+    document.getElementById('bookGenre').value           = '';
+    document.getElementById('bookAvailable').checked     = true;
     document.getElementById('bookModal').classList.add('open');
 }
 
@@ -608,9 +630,7 @@ async function editBook(id) {
     document.getElementById('bookModal').classList.add('open');
 }
 
-function closeModal() {
-    document.getElementById('bookModal').classList.remove('open');
-}
+function closeModal() { document.getElementById('bookModal').classList.remove('open'); }
 
 async function saveBook() {
     const id   = document.getElementById('editingBookId').value;
@@ -625,33 +645,28 @@ async function saveBook() {
         synopsis:       document.getElementById('bookSynopsis').value.trim() || null,
         available:      document.getElementById('bookAvailable').checked ? 1 : 0
     };
-
     if (!body.title)     return showToast('Title is required', 'error');
     if (!body.author_id) return showToast('Please select an author', 'error');
     if (!body.genre_id)  return showToast('Please select a genre', 'error');
 
-    const method = id ? 'PUT' : 'POST';
-    const path   = id ? `/books/${id}` : '/books';
-    const res    = await apiFetch(path, { method, body: JSON.stringify(body) });
-
+    const res = await apiFetch(id ? `/books/${id}` : '/books', {
+        method: id ? 'PUT' : 'POST',
+        body: JSON.stringify(body)
+    });
     if (res.ok) {
-        showToast(id ? 'Book updated successfully' : 'Book added successfully', 'success');
+        showToast(id ? 'Book updated!' : 'Book added!', 'success');
         closeModal();
         await refreshBooks();
     } else {
-        showToast(res.data.error || 'Failed to save book', 'error');
+        showToast(res.data.error || 'Failed to save', 'error');
     }
 }
 
 async function deleteBook(id, title) {
-    if (!confirm('Are you sure you want to delete "' + title + '"?')) return;
+    if (!confirm('Delete "' + title + '"?')) return;
     const res = await apiFetch(`/books/${id}`, { method: 'DELETE' });
-    if (res.ok) {
-        showToast('Book deleted', 'success');
-        await refreshBooks();
-    } else {
-        showToast('Failed to delete book', 'error');
-    }
+    if (res.ok) { showToast('Book deleted', 'success'); await refreshBooks(); }
+    else showToast('Failed to delete', 'error');
 }
 
 async function refreshBooks() {
@@ -667,11 +682,14 @@ async function refreshBooks() {
 
 function showToast(msg, type = 'info') {
     const t = document.getElementById('toast');
-    t.textContent  = msg;
-    t.className    = type;
+    t.textContent = msg;
+    t.className   = type;
     t.style.display = 'block';
-    setTimeout(() => { t.style.display = 'none'; }, 3000);
+    setTimeout(() => t.style.display = 'none', 3000);
 }
+
+document.getElementById('bookModal').addEventListener('click',   e => { if (e.target === e.currentTarget) closeModal(); });
+document.getElementById('detailModal').addEventListener('click', e => { if (e.target === e.currentTarget) closeDetailModal(); });
 
 init();
 </script>
