@@ -1,11 +1,10 @@
 {
-  "name": "books-api",
+  "name": "books-client",
   "version": "1.0.0",
-  "description": "Books Library REST API for CET252 B2",
-  "main": "server.js",
+  "description": "Books Library Client for CET252 B2",
   "scripts": {
-    "start": "node server.js",
-    "docs": "apidoc -i routes/ -o apidoc/"
+    "start": "npx serve . -p 3000",
+    "test": "testcafe chrome tests/client.test.js"
   },
   "author": "Your Name",
   "license": "ISC"
